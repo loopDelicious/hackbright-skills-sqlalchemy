@@ -16,14 +16,41 @@ class Model(db.Model):
     """Car model."""
 
     __tablename__ = "models"
-    pass
+
+    # create column fields for class Model
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    year = db.Column(db.Integer, nullable=True)
+    brand_name = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
+
+    brand = db.relationship("Brand")
+
+    def __repr__(self):
+        """Provide helpful representation when printed, for human readability."""
+
+        return "<Model model_id=%s year=%s brand_name=%s name=%s>" % (self.id, 
+                self.year, self.brand_name, self.name)
 
 
 class Brand(db.Model):
     """Car brand."""
 
     __tablename__ = "brands"
-    pass
+   
+    # create column fields for class Brand
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(30), db.ForeignKey('models.brand_name'))
+    founded = db.Column(db.Integer, nullable=True)
+    headquarters = db.Column(db.String(30), nullable=True)
+    discontinued = db.Column(db.Integer, nullable=True)
+
+    model = db.relationship("Model")
+
+    def __repr__(self):
+        """Provide helpful representation when printed, for human readability."""
+
+        return "<Brand brand_id=%s name=%s founded=%s headquarters=%s discontinued=%s>" % (self.id, 
+                self.name, self.founded, self.headquarters, self.discontinued)
 
 
 # End Part 1
